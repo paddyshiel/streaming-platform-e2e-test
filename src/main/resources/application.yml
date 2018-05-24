@@ -1,0 +1,10 @@
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: "obafdapp72g2.int.g2.sb1:19373"
+      topic: tests
+    consumer:
+      bootstrap-servers: "obafdapp72g2.int.g2.sb1:19373"
+      topic: tests
+      group-id: streaming-platform-e2e
+      concurrency: 10
