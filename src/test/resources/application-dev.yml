@@ -6,5 +6,5 @@ spring:
     consumer:
       bootstrap-servers: "obafdapp01s4.int.s4.d1:19373"
       topic: tests
-      group-id: streaming-platform-integration-testing
-      concurrency: 2
+      group-id: streaming-platform-dev-integration-testing
+      concurrency: 5
