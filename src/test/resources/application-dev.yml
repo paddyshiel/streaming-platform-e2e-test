@@ -1,10 +1,16 @@
 spring:
   kafka:
     producer:
-      bootstrap-servers: "obafdapp01s4.int.s4.d1:19373"
+      bootstrap-servers: "obafdapp01s4.int.s4.d1:19390"
       topic: tests
+      ssl:
+        truststore-location: /Users/patricks/github/streaming-platform-e2e-test/src/test/resources/dev.af.truststore.jks
+        truststore-password: byword-8tFzUXiGs5_b9^!
     consumer:
-      bootstrap-servers: "obafdapp01s4.int.s4.d1:19373"
+      bootstrap-servers: "obafdapp01s4.int.s4.d1:19390"
       topic: tests
       group-id: streaming-platform-dev-integration-testing
       concurrency: 5
+      ssl:
+        truststore-location: /Users/patricks/github/streaming-platform-e2e-test/src/test/resources/dev.af.truststore.jks
+        truststore-password: byword-8tFzUXiGs5_b9^!

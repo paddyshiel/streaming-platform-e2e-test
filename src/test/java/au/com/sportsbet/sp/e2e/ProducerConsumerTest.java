@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static au.com.sportsbet.sp.e2e.config.BaseTestConfiguration.sleep;
+import static au.com.sportsbet.sp.e2e.config.BaseTestConfiguration.waitForConsumerSubscription;
 import static java.util.UUID.randomUUID;
 import static java.util.stream.IntStream.range;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,17 +36,18 @@ public class ProducerConsumerTest {
     @Test
     @SneakyThrows
     public void testSending() {
+        waitForConsumerSubscription();
+
         int expectedMessageSize = 10;
 
         produceMessages(expectedMessageSize);
 
-        sleep(1000);
-
         assertThat(producedMessageRepository.size()).isGreaterThanOrEqualTo(expectedMessageSize);
         assertThat(consumedMessageRepository.size()).isGreaterThanOrEqualTo(expectedMessageSize);
 
-        producedMessageRepository.keySet()
-                .forEach(producedMessageKey -> assertThat(consumedMessageRepository.containsKey(producedMessageKey)));
+        producedMessageRepository.keySet().forEach(
+            producedMessageKey -> assertThat(consumedMessageRepository.containsKey(producedMessageKey))
+        );
 
     }
 
