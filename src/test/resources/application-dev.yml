@@ -5,12 +5,12 @@ spring:
       topic: tests
       ssl:
         truststore-location: /Users/patricks/github/streaming-platform-e2e-test/src/test/resources/dev.af.truststore.jks
-        truststore-password: byword-8tFzUXiGs5_b9^!
+        truststore-password: byword-8tFzUXiGs5_b9^!      
     consumer:
-      bootstrap-servers: "obafdapp01s4.int.s4.d1:19390"
+      bootstrap-servers: "broker-0.kafka-obaf-bridge.kafka.int.sp.dev.sbet.cloud:9092"
       topic: tests
       group-id: streaming-platform-dev-integration-testing
       concurrency: 5
       ssl:
-        truststore-location: /Users/patricks/github/streaming-platform-e2e-test/src/test/resources/dev.af.truststore.jks
-        truststore-password: byword-8tFzUXiGs5_b9^!
+        truststore-location: /home/ec2-user/streaming-platform-e2e-test/src/test/resources/dev.aws.truststore.jks
+        truststore-password: password
