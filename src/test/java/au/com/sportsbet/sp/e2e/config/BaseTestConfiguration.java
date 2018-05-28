@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Import;
 @Import({ConsumerConfiguration.class, ProducerConfiguration.class})
 public class BaseTestConfiguration {
 
-    private static long TEST_CONSUMER_BOOTSTRAPPING_TIMEOUT = 3000;
+    private static long TEST_CONSUMER_BOOTSTRAPPING_TIMEOUT = 5000;
 
     @SneakyThrows
     public static void sleep(long millis) {

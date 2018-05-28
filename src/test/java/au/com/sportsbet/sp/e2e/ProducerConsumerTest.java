@@ -45,6 +45,8 @@ public class ProducerConsumerTest {
         assertThat(producedMessageRepository.size()).isGreaterThanOrEqualTo(expectedMessageSize);
         assertThat(consumedMessageRepository.size()).isGreaterThanOrEqualTo(expectedMessageSize);
 
+        waitForConsumerSubscription();
+
         producedMessageRepository.keySet().forEach(
             producedMessageKey -> assertThat(consumedMessageRepository.containsKey(producedMessageKey))
         );
