@@ -19,6 +19,7 @@ import org.springframework.kafka.support.SendResult;
 import java.net.InetAddress;
 import java.util.HashMap;
 
+import static au.com.sportsbet.sp.e2e.Application.resolveClasspathResourceAbsolutePath;
 import static org.apache.kafka.clients.CommonClientConfigs.SECURITY_PROTOCOL_CONFIG;
 import static org.apache.kafka.common.config.SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG;
 import static org.apache.kafka.common.config.SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG;
@@ -51,7 +52,7 @@ public class ProducerConfiguration {
 
         if (!(isEmpty(trustStoreLocation) || isEmpty(trustStorePassword))) {
             configs.put(SECURITY_PROTOCOL_CONFIG, "SSL");
-            configs.put(SSL_TRUSTSTORE_LOCATION_CONFIG, trustStoreLocation);
+            configs.put(SSL_TRUSTSTORE_LOCATION_CONFIG, resolveClasspathResourceAbsolutePath(trustStoreLocation));
             configs.put(SSL_TRUSTSTORE_PASSWORD_CONFIG, trustStorePassword);
         }
 

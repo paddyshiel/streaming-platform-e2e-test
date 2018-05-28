@@ -1,24 +1,27 @@
 package au.com.sportsbet.sp.e2e.consumer.config;
 
+import au.com.sportsbet.sp.e2e.Application;
 import au.com.sportsbet.sp.e2e.consumer.ConsumerService;
 import au.com.sportsbet.sp.e2e.consumer.KafkaConsumerService;
 import au.com.sportsbet.sp.e2e.consumer.KafkaTopicListener;
 import au.com.sportsbet.sp.e2e.repository.MessageRepository;
 import lombok.SneakyThrows;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.common.config.SslConfigs;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 
 import java.net.InetAddress;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
+import static au.com.sportsbet.sp.e2e.Application.resolveClasspathResourceAbsolutePath;
 import static org.apache.kafka.clients.CommonClientConfigs.SECURITY_PROTOCOL_CONFIG;
 import static org.apache.kafka.common.config.SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG;
 import static org.apache.kafka.common.config.SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG;
@@ -49,6 +52,7 @@ public class ConsumerConfiguration {
     @Bean
     @SneakyThrows
     public ConsumerFactory<String, Object> consumerFactory() {
+
         HashMap<String, Object> configs = new HashMap<String, Object>() {{
             put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, consumerBootstrapServer);
             put(ConsumerConfig.GROUP_ID_CONFIG, consumerGroupId);
@@ -59,7 +63,7 @@ public class ConsumerConfiguration {
 
         if (!(isEmpty(trustStoreLocation) || isEmpty(trustStorePassword))) {
             configs.put(SECURITY_PROTOCOL_CONFIG, "SSL");
-            configs.put(SSL_TRUSTSTORE_LOCATION_CONFIG, trustStoreLocation);
+            configs.put(SSL_TRUSTSTORE_LOCATION_CONFIG, resolveClasspathResourceAbsolutePath(trustStoreLocation));
             configs.put(SSL_TRUSTSTORE_PASSWORD_CONFIG, trustStorePassword);
         }
 

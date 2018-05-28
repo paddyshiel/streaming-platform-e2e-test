@@ -2,15 +2,15 @@ spring:
   kafka:
     producer:
       bootstrap-servers: "obafdapp71g2.int.g2.sb1:19390"
-      topic: tests
+      topic: "tests"
       ssl:
-        truststore-location: /Users/patricks/github/streaming-platform-e2e-test/src/test/resources/stg.af.truststore.jks
-        truststore-password: inn-z6om8Bcn=#bF+d
+        truststore-location: "classpath:stg.af.truststore.jks"
+        truststore-password: "inn-z6om8Bcn=#bF+d"
     consumer:
       bootstrap-servers: "obafdapp71g2.int.g2.sb1:19390"
-      topic: tests
-      group-id: streaming-platform-stg-integration-testing
+      topic: "tests"
+      group-id: "streaming-platform-stg-integration-testing"
       concurrency: 2
       ssl:
-        truststore-location: /Users/patricks/github/streaming-platform-e2e-test/src/test/resources/stg.af.truststore.jks
-        truststore-password: inn-z6om8Bcn=#bF+d
+        truststore-location: "classpath:stg.af.truststore.jks"
+        truststore-password: "inn-z6om8Bcn=#bF+d"

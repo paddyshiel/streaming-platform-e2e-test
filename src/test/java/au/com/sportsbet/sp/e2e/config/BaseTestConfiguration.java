@@ -12,14 +12,20 @@ import org.springframework.context.annotation.Import;
 @Import({ConsumerConfiguration.class, ProducerConfiguration.class})
 public class BaseTestConfiguration {
 
-    private static long TEST_CONSUMER_BOOTSTRAPPING_TIMEOUT = 5000;
+    private static long TEST_CONSUMER_BOOTSTRAPPING_TIMEOUT = 2000;
+
+    public static void waitForConsumerSubscription() {
+        log.info("waiting For Consumer Subscription: {} millis", TEST_CONSUMER_BOOTSTRAPPING_TIMEOUT);
+        sleep(TEST_CONSUMER_BOOTSTRAPPING_TIMEOUT);
+    }
+
+    public static void waitForConsumerMessages(long timeoutInMillis) {
+        log.info("waiting For Consumer Messages: {} millis", timeoutInMillis);
+        sleep(timeoutInMillis);
+    }
 
     @SneakyThrows
     public static void sleep(long millis) {
         Thread.sleep(millis);
-    }
-
-    public static void waitForConsumerSubscription() {
-        sleep(TEST_CONSUMER_BOOTSTRAPPING_TIMEOUT);
     }
 }
