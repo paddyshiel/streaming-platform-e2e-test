@@ -9,8 +9,8 @@ spring:
     consumer:
       group-id: "streaming-platform-dev-integration-testing"
       concurrency: 5
-      bootstrap-servers: "obafdapp01s4.int.s4.d1:19390"
+      bootstrap-servers: "broker-0.kafka-obaf-bridge.kafka.int.sp.dev.sbet.cloud:9092"
       topic: "promotions"
       ssl:
-        truststore-location: "classpath:dev.af.truststore.jks"
-        truststore-password: "byword-8tFzUXiGs5_b9^!"
+        truststore-location: "classpath:dev.aws.truststore.jks"
+        truststore-password: "password"
