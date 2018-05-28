@@ -35,6 +35,9 @@ public class ProducerConsumerTest {
     @Qualifier("consumedMessageRepository")
     private MessageRepository consumedMessageRepository;
 
+    @Value("${spring.kafka.producer.numMessages:10000}")
+    private Integer numMessages;
+
     @Value("${spring.kafka.consumer.wait:10000}")
     private Integer testMessageTimeout;
 
@@ -43,8 +46,7 @@ public class ProducerConsumerTest {
     public void testSending() {
         waitForConsumerSubscription();
 
-        int expectedMessageSize = 10;
-        range(0, expectedMessageSize).forEach(i -> {
+        range(0, numMessages).forEach(i -> {
             String messageKey = randomUUID().toString();
             String messageValue = getClass().getCanonicalName() + " | " + messageKey;
             kafkaProducingService.produceMessage(messageKey, messageValue);
@@ -52,8 +54,8 @@ public class ProducerConsumerTest {
 
         waitForConsumerMessages(testMessageTimeout);
 
-        assertThat(producedMessageRepository.size()).isGreaterThanOrEqualTo(expectedMessageSize);
-        assertThat(consumedMessageRepository.size()).isGreaterThanOrEqualTo(expectedMessageSize);
+        assertThat(producedMessageRepository.size()).isGreaterThanOrEqualTo(numMessages);
+        assertThat(consumedMessageRepository.size()).isGreaterThanOrEqualTo(numMessages);
         producedMessageRepository.keySet().forEach(
                 producedMessageKey -> assertThat(consumedMessageRepository.containsKey(producedMessageKey))
         );
