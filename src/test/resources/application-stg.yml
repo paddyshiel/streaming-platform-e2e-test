@@ -2,15 +2,18 @@ spring:
   kafka:
     producer:
       bootstrap-servers: "obafdapp71g2.int.g2.sb1:19390"
-      topic: "tests"
+      numMessages: 1000
+      topic: "canary"
       ssl:
         truststore-location: "classpath:stg.af.truststore.jks"
         truststore-password: "inn-z6om8Bcn=#bF+d"
     consumer:
-      bootstrap-servers: "obafdapp71g2.int.g2.sb1:19390"
-      topic: "tests"
       group-id: "streaming-platform-stg-integration-testing"
-      concurrency: 2
+      concurrency: 5
+      wait: 1000
+      bootstrap-servers: "obafdapp71g2.int.g2.sb1:19390"
+      topic: "canary"
       ssl:
         truststore-location: "classpath:stg.af.truststore.jks"
         truststore-password: "inn-z6om8Bcn=#bF+d"
+
