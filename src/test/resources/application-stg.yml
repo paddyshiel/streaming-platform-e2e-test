@@ -11,12 +11,11 @@ spring:
       group-id: "streaming-platform-stg-integration-testing"
       concurrency: 5
       wait: 1000
-      bootstrap-servers: "obafdapp71g2.int.g2.sb1:19390"
+      bootstrap-servers: "broker-4.kafka-activity-feeds-bridge.kafka.int.sp.stg.sbet.cloud:9092"
       topic: "canary"
       ssl:
-        truststore-location: "classpath:stg.af.truststore.jks"
-        truststore-password: "inn-z6om8Bcn=#bF+d"
+        truststore-location: "classpath:service.truststore.jks"
+        truststore-password: "password"
         keystore-location: "classpath:service.keystore.jks"
-        keystore-password: "asdasd"
-        key-password: "asdasd"
-
+        keystore-password: "password"
+        key-password: "password"
