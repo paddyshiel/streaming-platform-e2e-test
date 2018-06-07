@@ -1,6 +1,5 @@
 package au.com.sportsbet.sp.e2e.consumer.config;
 
-import au.com.sportsbet.sp.e2e.Application;
 import au.com.sportsbet.sp.e2e.consumer.ConsumerService;
 import au.com.sportsbet.sp.e2e.consumer.KafkaConsumerService;
 import au.com.sportsbet.sp.e2e.consumer.KafkaTopicListener;
@@ -11,20 +10,17 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 
 import java.net.InetAddress;
-import java.nio.file.Paths;
 import java.util.HashMap;
 
 import static au.com.sportsbet.sp.e2e.Application.resolveClasspathResourceAbsolutePath;
 import static org.apache.kafka.clients.CommonClientConfigs.SECURITY_PROTOCOL_CONFIG;
-import static org.apache.kafka.common.config.SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG;
-import static org.apache.kafka.common.config.SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG;
+import static org.apache.kafka.common.config.SslConfigs.*;
 import static org.springframework.util.StringUtils.isEmpty;
 
 @Configuration
@@ -49,6 +45,15 @@ public class ConsumerConfiguration {
     @Value("${spring.kafka.consumer.ssl.truststore-password}")
     private String trustStorePassword;
 
+    @Value("${spring.kafka.consumer.ssl.keystore-location}")
+    private String keyStoreLocation;
+
+    @Value("${spring.kafka.consumer.ssl.keystore-password}")
+    private String keyStorePassword;
+
+    @Value("${spring.kafka.consumer.ssl.key-password}")
+    private String keyPassword;
+
     @Bean
     @SneakyThrows
     public ConsumerFactory<String, Object> consumerFactory() {
@@ -65,6 +70,13 @@ public class ConsumerConfiguration {
             configs.put(SECURITY_PROTOCOL_CONFIG, "SSL");
             configs.put(SSL_TRUSTSTORE_LOCATION_CONFIG, resolveClasspathResourceAbsolutePath(trustStoreLocation));
             configs.put(SSL_TRUSTSTORE_PASSWORD_CONFIG, trustStorePassword);
+        }
+
+        if (!(isEmpty(keyStoreLocation) || isEmpty(keyStorePassword))) {
+            configs.put(SECURITY_PROTOCOL_CONFIG, "SSL");
+            configs.put(SSL_KEYSTORE_LOCATION_CONFIG, resolveClasspathResourceAbsolutePath(keyStoreLocation));
+            configs.put(SSL_KEYSTORE_PASSWORD_CONFIG, keyStorePassword);
+            configs.put(SSL_KEY_PASSWORD_CONFIG, keyStorePassword);
         }
 
         return new DefaultKafkaConsumerFactory<>(configs);

@@ -16,4 +16,7 @@ spring:
       ssl:
         truststore-location: "classpath:stg.af.truststore.jks"
         truststore-password: "inn-z6om8Bcn=#bF+d"
+        keystore-location: "classpath:service.keystore.jks"
+        keystore-password: "asdasd"
+        key-password: "asdasd"
 

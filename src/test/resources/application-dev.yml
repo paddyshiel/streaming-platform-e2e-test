@@ -14,5 +14,8 @@ spring:
       bootstrap-servers: "obafdapp01s4.int.s4.d1:19390"
       topic: "canary"
       ssl:
-        truststore-location: "classpath:dev.af.truststore.jks"
+        truststore-location: "classpath:service.truststore.jks"
         truststore-password: "byword-8tFzUXiGs5_b9^!"
+        keystore-location: "classpath:service.keystore.jks"
+        keystore-password: "asdasd"
+        key-password: "asdasd"

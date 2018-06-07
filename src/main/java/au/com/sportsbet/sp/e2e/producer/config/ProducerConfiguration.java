@@ -21,8 +21,8 @@ import java.util.HashMap;
 
 import static au.com.sportsbet.sp.e2e.Application.resolveClasspathResourceAbsolutePath;
 import static org.apache.kafka.clients.CommonClientConfigs.SECURITY_PROTOCOL_CONFIG;
-import static org.apache.kafka.common.config.SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG;
-import static org.apache.kafka.common.config.SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG;
+import static org.apache.kafka.common.config.SslConfigs.*;
+import static org.apache.kafka.common.config.SslConfigs.SSL_KEY_PASSWORD_CONFIG;
 import static org.springframework.util.StringUtils.isEmpty;
 
 @Configuration
@@ -40,6 +40,15 @@ public class ProducerConfiguration {
     @Value("${spring.kafka.producer.ssl.truststore-password}")
     private String trustStorePassword;
 
+    @Value("${spring.kafka.producer.ssl.keystore-location}")
+    private String keyStoreLocation;
+
+    @Value("${spring.kafka.producer.ssl.keystore-password}")
+    private String keyStorePassword;
+
+    @Value("${spring.kafka.producer.ssl.key-password}")
+    private String keyPassword;
+
     @Bean
     @SneakyThrows
     public ProducerFactory<String, Object> producerFactory() {
@@ -54,6 +63,13 @@ public class ProducerConfiguration {
             configs.put(SECURITY_PROTOCOL_CONFIG, "SSL");
             configs.put(SSL_TRUSTSTORE_LOCATION_CONFIG, resolveClasspathResourceAbsolutePath(trustStoreLocation));
             configs.put(SSL_TRUSTSTORE_PASSWORD_CONFIG, trustStorePassword);
+        }
+
+        if (!(isEmpty(keyStoreLocation) || isEmpty(keyStorePassword))) {
+            configs.put(SECURITY_PROTOCOL_CONFIG, "SSL");
+            configs.put(SSL_KEYSTORE_LOCATION_CONFIG, resolveClasspathResourceAbsolutePath(keyStoreLocation));
+            configs.put(SSL_KEYSTORE_PASSWORD_CONFIG, keyStorePassword);
+            configs.put(SSL_KEY_PASSWORD_CONFIG, keyStorePassword);
         }
 
         return new DefaultKafkaProducerFactory<>(configs);
