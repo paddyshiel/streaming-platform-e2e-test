@@ -5,7 +5,6 @@ import au.com.sportsbet.sp.e2e.producer.sender.KafkaSender;
 import au.com.sportsbet.sp.e2e.producer.sender.KafkaSenderImpl;
 import au.com.sportsbet.sp.e2e.repository.MessageRepository;
 import lombok.SneakyThrows;
-import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -21,42 +20,42 @@ import java.util.HashMap;
 
 import static au.com.sportsbet.sp.e2e.Application.resolveClasspathResourceAbsolutePath;
 import static org.apache.kafka.clients.CommonClientConfigs.SECURITY_PROTOCOL_CONFIG;
+import static org.apache.kafka.clients.producer.ProducerConfig.*;
 import static org.apache.kafka.common.config.SslConfigs.*;
-import static org.apache.kafka.common.config.SslConfigs.SSL_KEY_PASSWORD_CONFIG;
 import static org.springframework.util.StringUtils.isEmpty;
 
 @Configuration
 public class ProducerConfiguration {
 
-    @Value("${spring.kafka.producer.bootstrap-servers}")
+    @Value("${spring.kafka.producer.bootstrap-servers:}")
     private String producerBootstrapServer;
 
-    @Value("${spring.kafka.producer.topic}")
+    @Value("${spring.kafka.producer.topic:}")
     private String testsTopic;
 
-    @Value("${spring.kafka.producer.ssl.truststore-location}")
+    @Value("${spring.kafka.producer.ssl.truststore-location:}")
     private String trustStoreLocation;
 
-    @Value("${spring.kafka.producer.ssl.truststore-password}")
+    @Value("${spring.kafka.producer.ssl.truststore-password:}")
     private String trustStorePassword;
 
-    @Value("${spring.kafka.producer.ssl.keystore-location}")
+    @Value("${spring.kafka.producer.ssl.keystore-location:}")
     private String keyStoreLocation;
 
-    @Value("${spring.kafka.producer.ssl.keystore-password}")
+    @Value("${spring.kafka.producer.ssl.keystore-password:}")
     private String keyStorePassword;
 
-    @Value("${spring.kafka.producer.ssl.key-password}")
+    @Value("${spring.kafka.producer.ssl.key-password:}")
     private String keyPassword;
 
     @Bean
     @SneakyThrows
     public ProducerFactory<String, Object> producerFactory() {
         HashMap<String, Object> configs = new HashMap<String, Object>() {{
-            put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, producerBootstrapServer);
-            put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-            put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-            put(ProducerConfig.CLIENT_ID_CONFIG, InetAddress.getLocalHost().getHostName());
+            put(BOOTSTRAP_SERVERS_CONFIG, producerBootstrapServer);
+            put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+            put(VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+            put(CLIENT_ID_CONFIG, InetAddress.getLocalHost().getHostName());
         }};
 
         if (!(isEmpty(trustStoreLocation) || isEmpty(trustStorePassword))) {
